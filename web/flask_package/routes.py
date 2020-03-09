@@ -74,14 +74,13 @@ def upload_file():
                 respond  = requests.post(url, json=post_data)
                 model_info = respond.json()
 
-                allmodels.append(model_info)
+                for model_name, result in model_info.items():
+                    allmodels.append(result)
 
-                # Saving Results of Uploaded Files  to Sqlite DB
-                newfile = FileContents(name=file.filename,data=file.read(),modeldata=model_info["results"])
-                db.session.add(newfile)
-                db.session.commit()
-               
-
+                    # Saving Results of Uploaded Files  to Sqlite DB
+                    newfile = FileContents(name=file.filename,data=file.read(),modeldata=result["results"], report=result["report"])
+                    db.session.add(newfile)
+                    db.session.commit()
 
                 return render_template('analysis.html',file_name=file_name, file_path = file_path, df_table=df, model_info = allmodels) 
             else:

@@ -6,55 +6,77 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import SVC
-from sklearn.linear_model import LinearRegression
 
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import classification_report
 
 import pandas as pd
+import numpy as np
 
-def linear_regression_old(x_value, y_value):
-    X = np.array(x_value).reshape(-1, 1)
-    y = np.array(y_value).reshape(-1, 1)
-    model = LinearRegression(normalize=True)
-    reg = model.fit(X, y)
-    return model, reg.intercept_, reg.coef_
 
-def linear_regression(x_value, y_value):
-    model = LinearRegression()
-    reg = model.fit(x_value, y_value)
-    return model, reg.intercept_, reg.coef_   
+# Function to make predictions
+def prediction(X_test, model):
+    # Predicton on test with giniIndex
+    y_pred = model.predict(X_test)
+    return y_pred
 
-def train_test_split_1(dataset, x_name, y_name, test_size):
-    X = dataset[x_name].values.reshape(-1, 1)
-    y = dataset[y_name].values.reshape(-1, 1)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
-    return X_train, X_test, y_train, y_test
 
-def population_visitors(df):
+# Function to calculate accuracy
+def cal_accuracy(y_test, y_pred):
 
-    df_selected = df[['City Population', 'Museum visitors']]
-    df_selected.loc[:, 'City Population'] = pd.to_numeric(df_selected.loc[:, 'City Population'])
-    df_selected.loc[:, 'Museum visitors'] = pd.to_numeric(df_selected.loc[:, 'Museum visitors'])
-    df_clean = df_selected.dropna()
+    # confusion_matrix_report = np.array2string(confusion_matrix(y_test, y_pred))
 
-    x_population = df_clean['City Population'].to_numpy()
-    y_visitor = df_clean['Museum visitors'].to_numpy()
+    accuracy = accuracy_score(y_test, y_pred) * 100
+    accuracy = str(round(accuracy, 4))
 
-    X_train, X_test, y_train, y_test = train_test_split_1(df_clean, "City Population", "Museum visitors", 0.2)
+    report = classification_report(y_test, y_pred)
 
-    x_data_info = {"values": x_population.tolist(), "label": "City Population", "train":X_train, "test":X_test}
-    y_data_info = {"values": y_visitor.tolist(), "label": "Museum Visitors", "train":y_train, "test":y_test}
-    return x_data_info, y_data_info
+    return accuracy, report
+
+
+# Function to split the dataset
+def splitdataset(data):
+    # # Separating the target variable
+    X = data.iloc[:, 0:-1]
+    Y = data[data.columns[-1]]  # Select the last column as target
+
+    # Splitting the dataset into train and test
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, Y, test_size=0.3, random_state=100)
+
+    return X, Y, X_train, X_test, y_train, y_test
+
 
 def perform_analysis(df):
-    x_data_info, y_data_info = population_visitors(df)
-    model, intercept, coefficient = linear_regression(x_data_info['train'], y_data_info['train'])
+    df_Xfeatures = df.iloc[:, 0:-1]
+    df_Ylabels = df[df.columns[-1]]  # Select the last column as target
+    # Model Building
+    X = df_Xfeatures
+    Y = df_Ylabels
 
-    # Saving Results of Uploaded Files  to Sqlite DB
-    intercept = round(intercept[0], 4)
-    coefficient = round(coefficient[0][0], 4)
-    name = 'LinearRegression'
-    msg = "Name: %s, intercept:%f, coefficient:%f" % (name, intercept, coefficient)               
-    model_info = {"name":name,"results":msg}
-    
-    return model_info
+    # prepare models
+    models = []
+    models.append(('Logistic Regression', LogisticRegression()))
+    models.append(('Linear Discriminant Analysis', LinearDiscriminantAnalysis()))
+    models.append(('K Neighbors Classifier', KNeighborsClassifier()))
+    models.append(('Decision Tree Classifier', DecisionTreeClassifier()))
+    models.append(('Gaussian NB', GaussianNB()))
+    models.append(('SVM', SVC()))
+
+    all_models_results = {}
+    scoring = 'accuracy'
+    for name, model in models:
+        X, Y, X_train, X_test, y_train, y_test = splitdataset(df)
+        result = model.fit( X_train, y_train)
+        # Prediction using gini
+        y_pred = prediction(X_test, model)
+        accuracy, report = cal_accuracy(y_test, y_pred)
+        msg = "ML Algorithm: %s | Accuracy: %s" % (name, accuracy)
+        result = { "name": name, "results": msg, "report":report}
+        all_models_results[name] = result
+
+    return all_models_results
+
+
