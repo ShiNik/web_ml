@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block content %} 
+    <h1>Welcome web ml api! Enjoy!</h1>
+    <p>Analysis History!</p>
+     <ul>
+        {%for id, result in ml_results.items() %}
+            <li> {{result["file"]}} <a href="{{ url_for('ml_result', result_id=id) }}" > {{ result["result"] }}</a>in {{ result["date"] }}</li>
+        {% endfor %}
+    </ul>
+
+    <p></p>
+    <p> <a href="{{ url_for('upload_file') }}" >upload file</a></p>
+{% endblock content %}

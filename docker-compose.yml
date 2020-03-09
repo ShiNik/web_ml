@@ -1,0 +1,65 @@
+version: '2'
+services:
+  dbpostgres:
+    container_name: postgres_db
+    image: postgres
+    volumes:
+      - .:/var/lib/postgresql
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: pguser
+      POSTGRES_PASSWORD: pguser
+      POSTGRES_DB: pgdb
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    depends_on:
+      - dbpostgres
+    environment:
+      PGADMIN_DEFAULT_EMAIL: snikfal@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: pguser
+    volumes:
+       - .:/root/.pgadmin
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+  jupyter:
+    container_name: jupyter
+    image: jupyter/minimal-notebook:latest 
+    depends_on:
+      - dbpostgres
+      - pgadmin  
+    volumes:
+      - .:/home/jovyan/src
+    ports:
+      - "8888:8888"
+    restart: unless-stopped
+
+  web:
+    build: .
+    depends_on:
+      - jupyter
+    image: snikfal/web:1.0
+    volumes: 
+      - .:/web
+    ports:
+      - "5000:80"
+    restart: unless-stopped
+  ml:
+    build: .
+    depends_on:
+      - jupyter
+    image: snikfal/ml:1.0
+    volumes:
+      - .:/ml
+    ports:
+      - "5002:80"
+    restart: unless-stopped
+
+
+
+

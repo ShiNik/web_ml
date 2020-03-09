@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<head>
+    <style>
+    .form-element label {
+        display: inline-block;
+        width: 60px;
+    }       
+    </style>
+  
+    {% if title %}
+        <title>Flask Blog - {{ title }}</title>
+    {% else %}
+        <title>Flask Blog</title>
+    {% endif %}
+
+</head>
+<body>
+    {% block content %} {% endblock %}
+</body>
+</html>

@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block content %} 
+    <p></p>
+    <p> <a href="{{ url_for('home') }}" >home</a></p> 
+    <p></p>
+    
+    <h1 class="display-3">Simplified MLApp</h1>
+    <p>Simplify Your Machine Learning and Data Exploration(Semi-Automated ML)</p>
+    <h1>file name</h1>
+    <p>{{ file_name }}</p>
+
+    <!-- Viewing Dataset As a Table-->
+    <div class="col-md-6">
+        <h2>Details of Dataset</h2>
+        <p>{{ file_path }} </p>
+        <button onclick="displayDataset()" class="btn btn-primary">View Dataset</button>
+        <br/>
+        <br/>
+        <div id="myDIV">
+            {{df_table.to_html(classes="table table-striped table-hover",na_rep="-") | safe}}
+        </div>
+    </div>
+    <h2>Model Score</h2>
+            
+    {% for info in model_info %}
+       
+        <h2>{{info["name"]}}</h2>
+        <a href="#" class="list-group-item">
+        <span style="color:red">ML Algorithm | Mean Accuracy | Standard Deviation</span> </a>
+        <a href="#" class="list-group-item">{{ info["results"] }}</a>
+    </div>
+
+    {% endfor %}
+
+    <p></p>
+    <p> <a href="{{ url_for('home') }}" >home</a></p>   
+    
+{% endblock content %}
