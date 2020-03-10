@@ -26,13 +26,25 @@
        
         <h2> <span style="color:red"> {{info["name"]}} </span></h2>
         <a href="#" class="list-group-item">{{ info["results"] }}</a>
-        <div><h2><strong> {{ info["report"]}} </strong></h2></div>
-
+        <p><span style="font-weight:bold">Classification report</<span></p>
+        <p><xmp>{{ info['report'] }}</xmp></p>
     </div>
 
     {% endfor %}
 
     <p></p>
-    <p> <a href="{{ url_for('home') }}" >home</a></p>   
+    <p> <a href="{{ url_for('home') }}" >home</a></p>
+
+<!-- Function for Displaying Table -->
+<script>
+function displayDataset() {
+    var x = document.getElementById("myDIV");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
+</script>
     
 {% endblock content %}

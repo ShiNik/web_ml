@@ -11,7 +11,21 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/home')
 def home():
-    return "Ml manager"
+    return """<h1>Machine Learning Server</h1>
+              <p1><span style="font-weight:bold">Performing following machine learning algorithms:</<span></p1>
+               <ol>
+                  <li>Logistic Regression</li>
+                  <li>Linear Discriminant Analysis</li>
+                  <li>K Neighbors Classifier</li>
+                  <li>Decision Tree Classifier</li>
+                  <li>Gaussian NB</li>
+                  <li>Support Vector Machine</li>  
+               </ol>  
+              <p>Finally for each model compute:</p> 
+              <li> Accuracy</li> 
+              <li> Precision</li> 
+              <li> Recall</li> 
+              <li> F1 score</li>"""
 
 @app.route("/perform_ml", methods=['POST'])
 def perform_ml():
