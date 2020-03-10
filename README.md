@@ -31,7 +31,7 @@ Classification report
     macro avg      0.95      0.95      0.95        45
     weighted avg   0.96      0.96      0.96        45
 
-#Machine Learning Server
+# Machine Learning Server
 Performing following machine learning algorithms:
 - Logistic Regression
 - Linear Discriminant Analysis
