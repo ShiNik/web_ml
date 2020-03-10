@@ -6,9 +6,8 @@ Web Api:
 you can see the history of the past analysis and perforce a new analysis.
 
 ## Analysis History
--iris.csv ML Algorithm: Decision Tree Classifier | Accuracy: 95.5556in 2020-03-09 18:06:12.954142
-
--iris.csv ML Algorithm: Gaussian NB | Accuracy: 95.5556in 2020-03-09 18:06:12.971154
+- iris.csv ML Algorithm: Decision Tree Classifier | Accuracy: 95.5556in 2020-03-09 18:06:12.954142
+- iris.csv ML Algorithm: Gaussian NB | Accuracy: 95.5556in 2020-03-09 18:06:12.971154
 
 ## Perform new analysis
 First you upload a file then start the analysis.
