@@ -11,6 +11,7 @@ def create_app():
     ALLOWED_EXTENSIONS = {'csv'}
     app.config['ALLOWED_EXTENSIONS'] = ALLOWED_EXTENSIONS
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///static/upload_db/filestorage.db'
+    app.config['RUNFROMDOCKER'] = True
 
     global db
     db = SQLAlchemy(app)

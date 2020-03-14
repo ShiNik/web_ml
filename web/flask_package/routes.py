@@ -70,7 +70,10 @@ def upload_file():
 
                 dataset = df.to_dict(orient='list')
                 post_data = {'dataset ID': "makis", 'date start': "1", 'date end': "2", 'payload': dataset}
-                url = "http://localhost:5002/perform_ml"
+                #in docker set url to "http://ml:5002/perform_ml"
+                #outside docker set url to "http://localhost:5002/perform_ml"
+                url = "http://ml:5002/perform_ml" if app.config['RUNFROMDOCKER'] else "http://localhost:5002/perform_ml"
+
                 respond  = requests.post(url, json=post_data)
                 model_info = respond.json()
 

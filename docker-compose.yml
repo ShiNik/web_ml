@@ -40,25 +40,24 @@ services:
     restart: unless-stopped
 
   web:
-    build: .
+    container_name: flask_web
+    build: ./web
     depends_on:
-      - jupyter
+      - ml
     image: snikfal/web:1.0
     volumes: 
-      - .:/web
+      - ./web/:/usr/src/app
     ports:
-      - "5000:80"
-    restart: unless-stopped
+      - "5000:5000"
+
   ml:
-    build: .
-    depends_on:
-      - jupyter
+    container_name: ml_server
+    build: ./ml
     image: snikfal/ml:1.0
     volumes:
-      - .:/ml
+      - ./ml/:/usr/src/app
     ports:
-      - "5002:80"
-    restart: unless-stopped
+      - "5002:5002"
 
 
 
