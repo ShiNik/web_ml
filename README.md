@@ -18,8 +18,10 @@ if you do not have anaconda install the you need to install following libraries:
 - flask
 - flask-sqlalchemy
 
+# Getting started
+The web_ml directory contains the source code for this project. To run the application in a docker-compose environment, `cd` into this directory and run `docker-compose up`. The web api and machine learning server will start (if necessary, docker-compose will automatically build the containers).
 
-Web Api:
+#Web Api
 you can see the history of the past analysis and perforce a new analysis.
 
 ## Analysis History
