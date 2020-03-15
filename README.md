@@ -2,6 +2,23 @@
 
 This repository contains to project web api and machine learning server.
 
+## Installation
+If you are using anaconda you install all the require library by importing the [environment.yml](installation/environment.yml).
+Before importing the yml file please replace [username] by the valid name.
+Then open anaconda prompt and enter the following comments
+conda env create -f web_ml/installation/environment.yml
+if you do not have anaconda install the you need to install following libraries:
+- Python 3.7+ is required
+- numpy
+- scipy
+- pandas
+- pandas
+- requests
+- scikit-learn
+- flask
+- flask-sqlalchemy
+
+
 Web Api:
 you can see the history of the past analysis and perforce a new analysis.
 

@@ -1,7 +1,6 @@
 numpy
 scipy
 pandas
-request
 flask
 requests
 flask-sqlalchemy
